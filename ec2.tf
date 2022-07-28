@@ -61,13 +61,11 @@ resource "aws_instance" "myec2instances" {
     create_before_destroy = true
   }
 
-  resource "null_resource" "providing permission" {
-
  provisioner "local-exec" {
     
     command = "sudo chmod 600 linuxmachinekey.pem"
   }
-}
+
 #Running ansible from our machine to the managed node
   provisioner "local-exec" {
         command = "sleep 120; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u centos --private-key ./linuxmachinekey.pem -i '${aws_instance.myec2instances.public_ip},' mediawiki.yaml"
