@@ -2,7 +2,7 @@
 #Security Group for our application
 resource "aws_security_group" "mysecuritygroup" {
   name = "mysecuritygroup"
-  vpc_id = aws_vpc.myvpc.id
+#  vpc_id = aws_vpc.myvpc.id
   ingress {
     description      = "TLS from VPC"
     from_port        = 22
@@ -45,10 +45,10 @@ resource "aws_security_group" "mysecuritygroup" {
 
 #Creating EC2 Instances
 resource "aws_instance" "myec2instances" {
-  ami = "ami-0667149a69bc2c367"
+  ami = "ami-0667149a69bc2c367" 
   instance_type = "t2.micro"
-  subnet_id = aws_subnet.mysubnet.id
-  vpc_security_group_ids = [aws_security_group.mysecuritygroup.id]
+#  subnet_id = aws_subnet.mysubnet.id
+#  vpc_security_group_ids = [aws_security_group.mysecuritygroup.id]
   key_name = "linuxmachinekey"
   root_block_device {
     volume_type = "gp2"
@@ -60,9 +60,9 @@ resource "aws_instance" "myec2instances" {
   lifecycle {
     create_before_destroy = true
   }
-}
 
 #Running ansible from our machine to the managed node
   provisioner "local-exec" {
         command = "sleep 120; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u centos --private-key ./linuxmachinekey.pem -i '${aws_instance.myec2instances.public_ip},' mediawiki.yaml"
      }
+}
