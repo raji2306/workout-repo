@@ -86,7 +86,7 @@
         - ::1
     - name: Add .my.cnf to user home
       template:
-        src: /etc/ansible/my.cnf.j2
+        src: my.cnf.j2
         dest: /root/.my.cnf
     - name: Reload privilege tables
       command: |
